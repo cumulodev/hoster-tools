@@ -43,9 +43,9 @@ func main() {
 	ref := make(map[string]struct{})
 
 	for _, each := range rawCSVdata {
-		url = each[0]
-		scheme = each[1]
-		bundle = each[2]
+		url := each[0]
+		scheme := each[1]
+		bundle := each[2]
 
 		// BUILD REF
 		ref[url] = struct{}{}
@@ -77,7 +77,7 @@ func main() {
 	// SYNC
 	// DELETE DOMAINS NOT LISTED IN NEW SET
 	for _, d := range currDomains {
-		if _, ok = ref[d.Name]; !ok {
+		if _, ok := ref[d.Name]; !ok {
 			fmt.Println("I would now delete Domain " + d.Name)
 			//api.DeleteDomain(d,true)
 
