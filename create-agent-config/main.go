@@ -25,6 +25,7 @@ func main() {
 	key := flag.String("key", "abc", "Agent Key")
 	secret := flag.String("secret", "abc", "Agent Secret")
 	filename := flag.String("file", "import.csv", "path to import file")
+	tmpfile := flag.String("tmpfile", "/tmp/nimbusec.tmp", "path of the tmpfile that writes interim results")
 	flag.Parse()
 
 	file, err := os.Open(*filename)
@@ -53,7 +54,7 @@ func main() {
 		Key:           *key,
 		Secret:        *secret,
 		APIServer:     *api,
-		TmpFile:       "/tmp/nimbusec.tmp",
+		TmpFile:       *tmpfile,
 		ExcludeDir:    []string{},
 		ExcludeRegexp: []string{},
 		Domains:       docroots,
