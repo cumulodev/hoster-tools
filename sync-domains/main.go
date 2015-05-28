@@ -16,6 +16,7 @@ func main() {
 	apiKeyPtr := flag.String("key", "abc", "API key for authentication")
 	apiSecretPtr := flag.String("secret", "abc", "API secret for authentication")
 	filePtr := flag.String("file", "import.csv", "path to import file")
+	shouldDelete := flag.Bool("delete", true, "delete domains from nimbusec if not provided in the CSV")
 	flag.Parse()
 
 	api, err := nimbusec.NewAPI(*apiUrlPtr, *apiKeyPtr, *apiSecretPtr)
@@ -76,11 +77,11 @@ func main() {
 
 	// SYNC
 	// DELETE DOMAINS NOT LISTED IN NEW SET
-	for _, d := range currDomains {
-		if _, ok := ref[d.Name]; !ok {
-			fmt.Println("I would now delete Domain " + d.Name)
-			//api.DeleteDomain(d,true)
-
+	if *shouldDelete {
+		for _, d := range currDomains {
+			if _, ok := ref[d.Name]; !ok {
+				api.DeleteDomain(d, true)
+			}
 		}
 	}
 }
