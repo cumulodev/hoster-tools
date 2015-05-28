@@ -1,0 +1,2 @@
+example.com,/var/www/example.com,http,random-bundle-uuid
+www.example.com,/var/www/www.example.com/htdocs,https,random-bundle-uuid
