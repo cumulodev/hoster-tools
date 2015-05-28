@@ -1,2 +1,2 @@
-example.com,http,random-bundle-uuid
-www.example.com,https,random-bundle-uuid
+example.com,/var/www/domain1,http,random-bundle-uuid
+www.example.com,/var/www/domain2,https,random-bundle-uuid

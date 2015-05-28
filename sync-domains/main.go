@@ -45,8 +45,8 @@ func main() {
 
 	for _, each := range rawCSVdata {
 		url := each[0]
-		scheme := each[1]
-		bundle := each[2]
+		scheme := each[2]
+		bundle := each[3]
 
 		// BUILD REF
 		ref[url] = struct{}{}
