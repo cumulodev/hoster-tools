@@ -1,5 +1,5 @@
 # hoster-tools
-Collection of simple tools for hosted integration
+Collection of simple tools for hoster
 
 
 ## create-agent-config
@@ -14,6 +14,10 @@ If you have Go installed, the `create-agent-config` can simply be installed by g
 As `key` and `secret` please use an *Server Agent Token* (can be found at https://portal.nimbusec.com/einstellungen/serveragent).
 
     create-agent-config -key abc -secret abc -file import.csv > /opt/nimbusec/agent.conf
+    
+Or define another path for writing the temporary results file
+    
+    create-agent-config -key abc -secret abc -tmpfile C:\\tmp\\nimbusec.tmp -file import.csv > /opt/nimbusec/agent.conf
   
 An example for the import.csv file is in the create-agent-config directory.
 
