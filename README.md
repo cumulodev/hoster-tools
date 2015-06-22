@@ -63,3 +63,30 @@ To disable for example all infected domains hosted by Apache, specify the follow
 If one of the actions is not required, just specify for example the shell builtin `true` command:
 
     infected-domain-trigger -key abc -secret abc -action 'disable.sh' -reload 'true'
+
+## infected-resources
+This tool polls the nimbusec API for infected domains and returns the infected resources (files and paths). An example use case would be the automatic delete/move/quarantine of infected files.
+
+### Installation
+If you have Go installed, the `infected-resources` can simply be installed by go get:
+
+    go get github.com/cumulodev/hoster-tools/infected-resources
+    
+### Usage
+As `key` and `secret` please use your assigned API key and secret (can be found at https://portal.nimbusec.com/einstellungen/serveragent).
+
+    infected-resources -key abc -secret abc -domain www.example.com
+    
+* *domain*: The domain command is OPTIONAL and can limit the output of the resources to one specific domain.
+
+To get the infected resources of ALL domains just call:
+
+    infected-resources -key abc -secret abc
+    
+If you want the resources of just one domain you may limit it like this:
+
+    infected-resources -key abc -secret abc -domain www.example.com
+
+The output has csv format and can be written to a file like this:
+
+    infected-resources -key abc -secret abc > infected-resources.csv
