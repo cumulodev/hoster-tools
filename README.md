@@ -93,4 +93,4 @@ The output has csv format and can be written to a file like this:
 
 Perform actions on the output with pipes - infinite possibilities - example:
     
-    infected-resources -key xvtkGMQEX8rT0MAwx7XNi -secret xU9MLe9NxI5WZdwe3eUJs -domain www.musikclub.at | sed -E 's/.*,(.*)$/echo \1/' > process.sh && sh process.sh
+    infected-resources -key abc -secret abc -domain www.musikclub.at | sed -E 's/.*,(.*)$/echo \1/' > process.sh && sh process.sh
