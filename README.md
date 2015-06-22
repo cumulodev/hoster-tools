@@ -90,3 +90,7 @@ If you want the resources of just one domain you may limit it like this:
 The output has csv format and can be written to a file like this:
 
     infected-resources -key abc -secret abc > infected-resources.csv
+
+Perform actions on the output with pipes - infinite possibilities - example:
+    
+    infected-resources -key xvtkGMQEX8rT0MAwx7XNi -secret xU9MLe9NxI5WZdwe3eUJs -domain www.musikclub.at | sed -E 's/.*,(.*)$/echo \1/' > process.sh && sh process.sh
