@@ -80,6 +80,7 @@ func main() {
 	if *shouldDelete {
 		for _, d := range currDomains {
 			if _, ok := ref[d.Name]; !ok {
+				fmt.Printf("DELETE DOMAIN: %s\n", d.Name)
 				api.DeleteDomain(&d, true)
 			}
 		}
