@@ -80,7 +80,7 @@ func main() {
 	if *shouldDelete {
 		for _, d := range currDomains {
 			if _, ok := ref[d.Name]; !ok {
-				api.DeleteDomain(d, true)
+				api.DeleteDomain(&d, true)
 			}
 		}
 	}
