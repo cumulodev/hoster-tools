@@ -17,6 +17,7 @@ func main() {
 	apiSecretPtr := flag.String("secret", "abc", "API secret for authentication")
 	filePtr := flag.String("file", "import.csv", "path to import file")
 	shouldDelete := flag.Bool("delete", true, "delete domains from nimbusec if not provided in the CSV")
+	updatePtr := flag.Bool("update", true, "updates domain info; false to just insert new domains")
 	flag.Parse()
 
 	api, err := nimbusec.NewAPI(*apiUrlPtr, *apiKeyPtr, *apiSecretPtr)
@@ -62,9 +63,16 @@ func main() {
 
 		// UPSERT DOMAIN
 		fmt.Printf("UPSERT DOMAIN: %+v\n", domain)
-		_, err := api.CreateOrUpdateDomain(domain)
-		if err != nil {
-			log.Fatal(err)
+		if *updatePtr {
+			_, err := api.CreateOrUpdateDomain(domain)
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			_, err := api.CreateOrGetDomain(domain)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 
 	}
