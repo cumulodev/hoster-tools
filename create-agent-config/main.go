@@ -6,6 +6,7 @@ import (
 	"flag"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/cumulodev/nimbusec"
 )
@@ -53,7 +54,7 @@ func main() {
 	conf := AgentConfig{
 		Key:           *key,
 		Secret:        *secret,
-		APIServer:     *api,
+		APIServer:     strings.TrimSuffix(*api, "/"),
 		TmpFile:       *tmpfile,
 		ExcludeDir:    []string{},
 		ExcludeRegexp: []string{},
