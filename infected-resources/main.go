@@ -47,6 +47,7 @@ func main() {
 		}
 		for _, result := range results {
 			fmt.Printf("%s,%s\n", domain.Name, result.Resource)
+			//fmt.Printf("%s,%+v\n", domain.Name, result)
 		}
 	}
 
