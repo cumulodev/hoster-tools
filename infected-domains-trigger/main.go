@@ -22,8 +22,6 @@ func main() {
 	secret := flag.String("secret", "", "nimbusec API secret")
 	flag.Parse()
 
-	//TODO: validate parameters
-
 	api, err := nimbusec.NewAPI(*url, *key, *secret)
 	if err != nil {
 		log.Fatal(err)

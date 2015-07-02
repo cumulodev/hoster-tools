@@ -1,9 +1,10 @@
 package main
 
 import (
+	"encoding/csv"
 	"flag"
-	"fmt"
 	"log"
+	"os"
 
 	"github.com/cumulodev/nimbusec"
 )
@@ -15,8 +16,6 @@ func main() {
 	key := flag.String("key", "", "nimbusec API key")
 	secret := flag.String("secret", "", "nimbusec API secret")
 	flag.Parse()
-
-	//TODO: validate parameters
 
 	api, err := nimbusec.NewAPI(*url, *key, *secret)
 	if err != nil {
@@ -40,14 +39,15 @@ func main() {
 	}
 
 	// fetch resources per domain
+	writer := csv.NewWriter(os.Stdout)
 	for _, domain := range domains {
 		results, err := api.FindResults(domain.Id, *filter)
 		if err != nil {
 			log.Fatal(err)
 		}
 		for _, result := range results {
-			fmt.Printf("%s,%s\n", domain.Name, result.Resource)
-			//fmt.Printf("%s,%+v\n", domain.Name, result)
+			writer.Write([]string{domain.Name, result.Resource})
+			writer.Flush()
 		}
 	}
 
