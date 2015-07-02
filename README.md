@@ -94,3 +94,28 @@ The output has csv format and can be written to a file like this:
 Perform actions on the output with pipes - infinite possibilities - example:
     
     infected-resources -key abc -secret abc -domain www.example.com | sed -E 's/.*,(.*)$/echo \1/' > process.sh && sh process.sh
+
+## show-cms
+With this handy script it is possible to get an overview over all used cms on the infrastructure. 
+
+### Installation
+If you have Go installed, the `show-cms` can simply be installed by go get:
+
+    go get github.com/cumulodev/hoster-tools/show-cms
+    
+### Usage
+As `key` and `secret` please use your assigned API key and secret (can be found at https://portal.nimbusec.com/einstellungen/serveragent).
+
+    show-cms -key abc -secret abc -domain www.example.com
+    
+* *domain*: The domain command is OPTIONAL and can limit the output of the resources to one specific domain. Else it will output ALL provisioned domains
+* *outdated*: TRUE (default) shows only domains with outdated CMS, FALSE shows every domain where a CMS version could be determined. However, the latest CMS version field will stay empty when there is no newer version
+* *humanreadable*: TRUE (default) prints out the commercial name of a CMS, FALSE uses the CPE-ID
+ 
+To get ALL domains with identified CMS versions:
+
+    show-cms -key abc -secret abc -outdated=false
+    
+You can also export this to csv:
+
+    show-cms -key abc -secret abc > domains-cms-outdated.csv
