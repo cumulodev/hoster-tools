@@ -29,7 +29,10 @@ If you have Go installed, the `sync-domains` can simply be installed by go get:
 
     go get github.com/cumulodev/hoster-tools/sync-domains
 
-### Example Usage
+### Usage
+* *delete*: default TRUE; delete domains from nimbusec if not provided in the CSV
+* *update*: default TRUE; updates domain info (e.g. bundle ID); ELSE just inserts new domains without modifying existing
+
 As `key` and `secret` please use your assigned API key and secret (can be found at https://portal.nimbusec.com/einstellungen/serveragent).
 
     sync-domains -key abc -secret abc -file import.csv
@@ -38,6 +41,10 @@ Or to disable the removal of domains from nimbusec:
 
     sync-domains -delete false -key abc -secret abc -file import.csv
   
+To keep existing domains in their defined bundles, but add new ones with another bundle entry
+
+    sync-domains -update false -key abc -secret abc -file import.csv
+
 An example for the import.csv file is in the sync-domains directory.
 
 ## infected-domain-trigger
