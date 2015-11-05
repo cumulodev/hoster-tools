@@ -52,13 +52,18 @@ func main() {
 		scheme := row[2]
 		bundle := row[3]
 
+		url := scheme + "://" + name
+		if len(row) > 4 {
+			url = url + row[4]
+		}
+
 		// construct domain
 		domain := &nimbusec.Domain{
 			Name:      name,
 			Bundle:    bundle,
 			Scheme:    scheme,
-			DeepScan:  scheme + "://" + name,
-			FastScans: []string{scheme + "://" + name},
+			DeepScan:  url,
+			FastScans: []string{url},
 		}
 
 		// upsert domain
