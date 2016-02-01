@@ -1,2 +1,2 @@
-example.com,/var/www/domain1,http,random-bundle-uuid
+example.com,/var/www/domain1,http,random-bundle-uuid,deeplink
 www.example.com,/var/www/domain2,https,random-bundle-uuid,/deep/link
