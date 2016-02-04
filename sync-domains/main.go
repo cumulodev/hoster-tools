@@ -18,7 +18,7 @@ func main() {
 	file := flag.String("file", "import.csv", "path to import file")
 	delete := flag.Bool("delete", false, "delete domains from nimbusec if not provided in the CSV")
 	update := flag.Bool("update", false, "updates domain info; false to just insert new domains")
-	workers := flag.Int("workers", 1, "number of paralell workers (please do not use too many workers)")
+	workers := flag.Int("workers", 1, "number of parallel workers (please do not use too many workers)")
 	flag.Parse()
 
 	// creates a new nimbusec API instance
@@ -53,9 +53,16 @@ func main() {
 		bundle := row[3]
 
 		url := scheme + "://" + name
-		if len(row) > 4 {
-			url = url + row[4]
-		}
+		//		if len(row) > 4 {
+		//			deeplink := row[4]
+		//			if deeplink == "" {
+		//				// do nothing
+		//			} else if strings.HasPrefix(deeplink, "/") {
+		//				url = url + deeplink
+		//			} else {
+		//				url = deeplink
+		//			}
+		//		}
 
 		// construct domain
 		domain := &nimbusec.Domain{
