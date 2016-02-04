@@ -46,7 +46,7 @@ func main() {
 			log.Fatal(err)
 		}
 		for _, result := range results {
-			writer.Write([]string{domain.Name, result.Resource})
+			writer.Write([]string{domain.Name, result.Resource, result.Threatname, result.Reason})
 			writer.Flush()
 		}
 	}
