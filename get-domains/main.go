@@ -29,7 +29,7 @@ func main() {
 
 	writer := csv.NewWriter(os.Stdout)
 	for _, domain := range domains {
-		writer.Write([]string{domain.Name, domain.Scheme})
+		writer.Write([]string{domain.Name, "", domain.Scheme, domain.Bundle, ""})
 		writer.Flush()
 	}
 

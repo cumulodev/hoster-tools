@@ -179,11 +179,11 @@ get-domains -key abc -secret abc
 
 ### Output
 
-You will get a `CSV` with `domain,scheme`
+You will get a `CSV` compatible with the sync-domains/create-agent-config script: `domain,path,scheme,bundleid,deeplink`. The path will always be empty - it is only needed for server-agent configuration.
 
 ```
-example.com,https
-www.example.com,http
+example.com,,https,ran-dom-bundle-id,
+www.example.com,,http,ran-dom-bundle-id,
 ```
 
 show-cms
