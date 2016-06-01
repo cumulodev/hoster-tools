@@ -45,7 +45,7 @@ func main() {
 	pool.Start()
 
 	// keep track of domain names (required for delete step later)
-	ref := make(map[string]struct{})
+	ref := make(map[string]bool)
 
 	for _, row := range rows {
 		name := row[0]
@@ -74,10 +74,10 @@ func main() {
 		}
 
 		// upsert domain
-		ref[name] = struct{}{}
+		ref[name] = true
 		pool.Add(upsertJob{
 			api:    api,
-			domain: domain,
+			domain: *domain,
 			update: *update,
 		})
 	}
@@ -96,10 +96,10 @@ func main() {
 		// cross reference domains in nimbusec with csv file and delete all
 		// domains not present in csv file
 		for _, domain := range domains {
-			if _, ok := ref[domain.Name]; !ok {
+			if !ref[domain.Name] {
 				pool.Add(deleteJob{
 					api:    api,
-					domain: &domain,
+					domain: domain,
 				})
 			}
 		}
@@ -110,33 +110,33 @@ func main() {
 
 type upsertJob struct {
 	api    *nimbusec.API
-	domain *nimbusec.Domain
+	domain nimbusec.Domain
 	update bool
 }
 
-func (this upsertJob) Work() {
-	fmt.Printf("upsert domain: %+v\n", this.domain)
-	if this.update {
-		if _, err := this.api.CreateOrUpdateDomain(this.domain); err != nil {
+func (job upsertJob) Work() {
+	fmt.Printf("upsert domain: %+v\n", job.domain)
+	if job.update {
+		if _, err := job.api.CreateOrUpdateDomain(&job.domain); err != nil {
 			log.Fatal(err)
 		}
 	} else {
-		if _, err := this.api.CreateOrGetDomain(this.domain); err != nil {
+		if _, err := job.api.CreateOrGetDomain(&job.domain); err != nil {
 			log.Fatal(err)
 		}
 	}
 }
 
-func (this upsertJob) Save() {}
+func (job upsertJob) Save() {}
 
 type deleteJob struct {
 	api    *nimbusec.API
-	domain *nimbusec.Domain
+	domain nimbusec.Domain
 }
 
-func (this deleteJob) Work() {
-	fmt.Printf("delete domain: %s\n", this.domain.Name)
-	this.api.DeleteDomain(this.domain, true)
+func (job deleteJob) Work() {
+	fmt.Printf("delete domain: %s\n", job.domain.Name)
+	job.api.DeleteDomain(&job.domain, true)
 }
 
-func (this deleteJob) Save() {}
+func (job deleteJob) Save() {}
