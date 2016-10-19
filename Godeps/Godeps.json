@@ -1,0 +1,22 @@
+{
+	"ImportPath": "github.com/cumulodev/hoster-tools",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v74",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/cumulodev/goutils/pool",
+			"Rev": "a85e1ea165febe87825831d26031c65b4b4d3960"
+		},
+		{
+			"ImportPath": "github.com/cumulodev/nimbusec",
+			"Rev": "6e7dadbf1779e93cce0a35646a4530a1577be87b"
+		},
+		{
+			"ImportPath": "github.com/cumulodev/oauth",
+			"Rev": "404cefccad6a20a3d5597b1f81edbeb06cf7884f"
+		}
+	]
+}
