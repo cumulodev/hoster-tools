@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/cumulodev/goutils/pool"
 	"github.com/cumulodev/nimbusec"
@@ -19,7 +20,10 @@ func main() {
 	delete := flag.Bool("delete", false, "delete domains from nimbusec if not provided in the CSV")
 	update := flag.Bool("update", false, "updates domain info; false to just insert new domains")
 	workers := flag.Int("workers", 1, "number of parallel workers (please do not use too many workers)")
+	throttle := flag.Int("throttle", 0, "delay in seconds per domain creation")
 	flag.Parse()
+
+	waitdur := time.Duration(*throttle) * time.Second
 
 	// creates a new nimbusec API instance
 	api, err := nimbusec.NewAPI(*url, *key, *secret)
@@ -76,9 +80,10 @@ func main() {
 		// upsert domain
 		ref[name] = true
 		pool.Add(upsertJob{
-			api:    api,
-			domain: *domain,
-			update: *update,
+			api:      api,
+			domain:   *domain,
+			update:   *update,
+			throttle: waitdur,
 		})
 	}
 
@@ -109,9 +114,10 @@ func main() {
 }
 
 type upsertJob struct {
-	api    *nimbusec.API
-	domain nimbusec.Domain
-	update bool
+	api      *nimbusec.API
+	domain   nimbusec.Domain
+	update   bool
+	throttle time.Duration
 }
 
 func (job upsertJob) Work() {
@@ -124,6 +130,9 @@ func (job upsertJob) Work() {
 		if _, err := job.api.CreateOrGetDomain(&job.domain); err != nil {
 			log.Fatal(err)
 		}
+	}
+	if job.throttle > 0 {
+		time.Sleep(job.throttle)
 	}
 }
 
