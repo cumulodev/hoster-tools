@@ -1,0 +1,1 @@
+Full documentation https://kb.nimbusec.com/GitHub/infected-domains-trigger

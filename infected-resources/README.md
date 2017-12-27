@@ -1,0 +1,1 @@
+Full documentation on https://kb.nimbusec.com/GitHub/infected-resources
