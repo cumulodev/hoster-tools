@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/cumulodev/nimbusec"
 )
@@ -46,7 +47,7 @@ func main() {
 			log.Fatal(err)
 		}
 		for _, result := range results {
-			writer.Write([]string{domain.Name, result.Resource, result.Threatname, result.Reason})
+			writer.Write([]string{domain.Name, strconv.Itoa(result.LastDate), result.Resource, result.Threatname, result.Reason})
 			writer.Flush()
 		}
 	}
