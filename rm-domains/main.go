@@ -57,10 +57,12 @@ func main() {
 	}
 
 	// check which domains can be deleted
+	rmcnt := 0
 	for _, row := range rows {
 		domainName := row[0]
 
 		if _, ok := ref[domainName]; ok {
+			rmcnt++
 			if *dryrun {
 				fmt.Printf("i would now delete '%s'\n", domainName)
 			} else {
@@ -72,10 +74,10 @@ func main() {
 					},
 				})
 			}
-
 		}
-
 	}
+
+	fmt.Printf("Deleted %d domains\n", rmcnt)
 
 	pool.Wait()
 
