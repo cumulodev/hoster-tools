@@ -15,7 +15,7 @@ func main() {
 	url := flag.String("url", nimbusec.DefaultAPI, "API Url")
 	key := flag.String("key", "abc", "API key for authentication")
 	secret := flag.String("secret", "abc", "API secret for authentication")
-	file := flag.String("file", "import.csv", "path to import file")
+	file := flag.String("file", "delete.csv", "path to file with domains for deletion")
 	dryrun := flag.Bool("dry-run", false, "simulate what would be done without writing")
 
 	flag.Parse()
@@ -51,45 +51,24 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// map current domains
 	for _, domain := range domains {
 		ref[domain.Name] = domain.Id
 	}
 
+	// check which domains can be deleted
 	for _, row := range rows {
-		name := row[0]
-		scheme := row[2]
-		bundle := row[3]
+		domainName := row[0]
 
-		url := scheme + "://" + name
-		//		if len(row) > 4 {
-		//			deeplink := row[4]
-		//			if deeplink == "" {
-		//				// do nothing
-		//			} else if strings.HasPrefix(deeplink, "/") {
-		//				url = url + deeplink
-		//			} else {
-		//				url = deeplink
-		//			}
-		//		}
-
-		// construct domain
-		domain := &nimbusec.Domain{
-			Name:      name,
-			Bundle:    bundle,
-			Scheme:    scheme,
-			DeepScan:  url,
-			FastScans: []string{url},
-		}
-
-		if _, ok := ref[domain.Name]; ok {
+		if _, ok := ref[domainName]; ok {
 			if *dryrun {
-				fmt.Printf("i would now delete '%s'\n", domain.Name)
+				fmt.Printf("i would now delete '%s'\n", domainName)
 			} else {
 				pool.Add(deleteJob{
 					api: api,
 					domain: nimbusec.Domain{
-						Id:   ref[domain.Name],
-						Name: domain.Name,
+						Id:   ref[domainName],
+						Name: domainName,
 					},
 				})
 			}
